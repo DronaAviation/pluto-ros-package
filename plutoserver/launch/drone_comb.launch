@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="drone_server" type="key_handling.py" pkg="plutoserver"/>
+  <node name="key_command" type="key_command.py" pkg="plutoserver"/>
+
+</launch>
