@@ -166,7 +166,7 @@ telnet 192.168.4.1 // drone wifi ip
 ###### Add IPs: Start your hotspot and your drone should connect to the hotspot. Note the IP address assigned to it. Edit following lines in [PlutoSwarm.cpp](/plutodrone/src/PlutoSwarm.cpp). Repeat this for all new drones which are added to the network. 
 ```
 all_ips.push_back(&quot;192.168.43.151&quot;);
-all_ips.push_back(&quot;&quot;);https://github.com/DronaAviation/pluto-ros-package/blob/master/plutodrone/src/PlutoSwarm.cpp
+all_ips.push_back(&quot;&quot;);
 ```
 ###### Send data: Follow procedure in ROSTopic Header to give commands to fly the drones. Add plutoIndex in PlutoMsg for every topic. This index is the same as the index of the IP within 'all_ips' when you add it. 
 
