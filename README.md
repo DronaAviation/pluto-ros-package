@@ -6,7 +6,7 @@ Use following instructions on how to use this package:
 
 ###### Prerequisites
 
-Follow this [tutorial](http://wiki.ros.org/joy) on ROS wiki and install necesarry package to use the joystick control feature pluto-ros-package.
+Follow this [tutorial](http://wiki.ros.org/joy) on ROS wiki and install necesarry package to use the joystick control feature of pluto-ros-package.
 
 ###### Installation
 
@@ -78,7 +78,7 @@ The package uses following axes and buttons index to control drone:
   - 1: To land
   - 5: To save trim values
 
-**Note: You can change these mapping in [plutojoystick.h](/plutoserver/include/plutoserver/plutojoystick.h)**
+**Note: You can change this mapping in [plutojoystick.h](/plutoserver/include/plutoserver/plutojoystick.h)**
 
 
 
@@ -177,11 +177,11 @@ all_ips.push_back(&quot;&quot;);https://github.com/DronaAviation/pluto-ros-packa
 
 ## Contact
 
-For any queries related to this package comment on repository or mail on [developers@dronaaviation.com]
+For any queries related to this package comment on repository or mail on developers@dronaaviation.com
 
 ## Acknowledgments
 
-This package is improved version of [https://github.com/simmubhangu/pluto_drone.git]
+This package is improved version of https://github.com/simmubhangu/pluto_drone.git
 
 Thanks to [Simranjeet Singh](https://github.com/simmubhangu) to develop original version of this package. 
 
