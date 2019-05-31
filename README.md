@@ -33,13 +33,13 @@ rosrun plutoserver data_via_rosservice.py
 
 # To control drone there are three ways: Joystick, Keyboard or ROSTopic 
 
-# Joystick way:
+# Using Joystick:
 rosrun plutoserver plutojoystick
 
-# Keyboard way:
+# Using Keyboard:
 roslaunch plutoserver drone_comb.launch
 
-# ROSTopic way:
+# Using ROSTopic:
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1000, rcAUX1: 0, rcAUX2: 0, rcAUX3: 0, rcAUX4: 1500}" // example of arming drone 
 
 ```
@@ -51,15 +51,15 @@ If you are using Lewei camera wifi instead of ESP wifi of Pluto then edit follow
 addr.sin_port = htons(CAMERA_PORT);
 addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
 ```
-###### Service
+## Service
 
 /plutoservice([PlutoPilot] (/plutodrone/srv)): This service request data from Pluto drone. This service gives the data like accelerometer, gyro, Magneto, altitude and battery value.
 
-###### Topic
+## Topic
 
 /drone_command(PlutoMsg): This topic canbe used to give RC input to drone
 
-###### Joystick To Control Drone
+## Joystick To Control Drone
 
 The package uses following axes and buttons index to control drone:
 
@@ -80,7 +80,7 @@ The package uses following axes and buttons index to control drone:
 **Note: You can change these mapping in [plutojoystick.h](/plutoserver/include/plutoserver/plutojoystick.h)**
 
 
-###### Keyboard To Control Drone
+## Keyboard To Control Drone
 
 Following are the keys to control mapping:
 
@@ -97,51 +97,51 @@ Left arrow : go left
 Right arrow : go right
 Ctrl-C: to quit
 
-###### ROSTopic To Control Drone
+## ROSTopic To Control Drone
 
-**Arm**  
+###### Arm
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1000, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**Disarm** 
+###### Disarm 
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1000}"
 ```
-**Increase Roll value to move forward with respect to x-axis**
+###### Increase Roll value to move forward with respect to x-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1600, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**Decrease Roll value to move backward with respect to x-axis**
+###### Decrease Roll value to move backward with respect to x-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1400, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**Increase Pitch value to move forward/left with respect to y-axis**
+###### Increase Pitch value to move forward/left with respect to y-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1600, rcYaw: 1500, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**Decrease Pitch value to move backward/right with respect to y-axis**
+###### Decrease Pitch value to move backward/right with respect to y-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1400, rcYaw: 1500, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-# Increase Throttle value to move up with respect to z-axis
+###### Increase Throttle value to move up with respect to z-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1800, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-# Decrease Throttle value to move down with respect to z-axis
+###### Decrease Throttle value to move down with respect to z-axis
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1200, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**Increase Yaw value to rotate in clockwise direction**
+###### Increase Yaw value to rotate in clockwise direction
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1800, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-**decrease Yaw value to rotate in anti-clockwise direction**
+###### decrease Yaw value to rotate in anti-clockwise direction
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1200, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
 **Note: RC values ranges from 1000 to 2000**
 
-###### Multi Drone
+## Multi Drone
 
 Following is the procedure to control multiple drones within the same network:
 
@@ -168,11 +168,11 @@ all_ips.push_back(&quot;&quot;);https://github.com/DronaAviation/pluto-ros-packa
 
 **Note: This feature is possible with ESP wifi of Pluto and will not work over Lewei camera wifi.**
 
-###### Contact
+## Contact
 
 For any queries related to this package comment on repository or mail on [developers@dronaaviation.com]
 
-###### Acknowledgments
+## Acknowledgments
 
 This package is improved version of [https://github.com/simmubhangu/pluto_drone.git]
 
