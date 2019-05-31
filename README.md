@@ -1,14 +1,14 @@
 # pluto-ros-package
-This package canbe used to control Pluto using keyboard, joystick or rostopic 
+This package canbe used to control Pluto or PlutoX using keyboard, joystick or rostopic 
 
 ## Getting Started 
 Use following instructions on how to use this package:
 
 ###### Prerequisites
 
-Follow this tutorial [wiki.ros.org/joy] and install necesarry package to use the joystick control feature pluto-ros-package.
+Follow this [tutorial](wiki.ros.org/joy) on ROS wiki and install necesarry package to use the joystick control feature pluto-ros-package.
 
-###### Installing
+###### Installation
 
 ```
 # Navigate to catkin workspace
@@ -52,14 +52,15 @@ addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
 ```
 ## Service
 
-/plutoservice([PlutoPilot] (/plutodrone/srv)): This service request data from Pluto drone. This service gives the data like accelerometer, gyro, Magneto, altitude and battery value.
+/plutoservice in [PlutoPilot](/plutodrone/srv) : This service request data from Pluto drone. This service gives the data like accelerometer, gyro, Magneto, altitude and battery value.
 
 ## Topic
 
-/drone_command(PlutoMsg): This topic canbe used to give RC input to drone
+/drone_command in [PlutoMsg](/plutodrone/msg): This topic canbe used to give RC input to drone
 
 
-## Joystick To Control Drone
+
+## Joystick To Control Pluto
 
 The package uses following axes and buttons index to control drone:
 
@@ -80,7 +81,8 @@ The package uses following axes and buttons index to control drone:
 **Note: You can change these mapping in [plutojoystick.h](/plutoserver/include/plutoserver/plutojoystick.h)**
 
 
-## Keyboard To Control Drone
+
+## Keyboard To Control Pluto
 
 Following are the keys to control mapping:
 
@@ -98,7 +100,8 @@ Following are the keys to control mapping:
 - Ctrl-C: to quit
 
 
-## ROSTopic To Control Drone
+
+## ROSTopic To Control Pluto
 
 ###### Arm
 ```
@@ -141,6 +144,7 @@ rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, r
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1200, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
 **Note: RC values ranges from 1000 to 2000**
+
 
 
 ## Multiple Drones
