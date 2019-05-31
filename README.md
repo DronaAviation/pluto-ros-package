@@ -2,11 +2,11 @@
 This package canbe used to control Pluto using keyboard, joystick or rostopic 
 
 ## Getting Started 
-Use following instructions on how to use this package.
+Use following instructions on how to use this package:
 
 ###### Prerequisites
 
-Follow this tutorial wiki.ros.org/joy and install necesarry package to use the joystick control feature pluto-ros-package.
+Follow this tutorial [wiki.ros.org/joy] and install necesarry package to use the joystick control feature pluto-ros-package.
 
 ###### Installing
 
@@ -43,10 +43,9 @@ roslaunch plutoserver drone_comb.launch
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1500, rcThrottle: 1000, rcAUX1: 0, rcAUX2: 0, rcAUX3: 0, rcAUX4: 1500}" // example of arming drone 
 
 ```
-**Note: To control drone use one of the way at once otherwise you will endup overwriting inputs from multiple nodes.**
+**Note: To control drone use one of the way at once otherwise you will endup over writing inputs from multiple nodes.**
 
-###### Use Lewei Camera wifi of Pluto
-If you are using Lewei camera wifi instead of ESP wifi of Pluto then edit following lines in [Communication.cpp](/plutodrone/src/Communication.cpp)
+###### Use Lewei Camera wifi of Pluto instead of ESP wifi then edit following lines in [Communication.cpp](/plutodrone/src/Communication.cpp)
 ```
 addr.sin_port = htons(CAMERA_PORT);
 addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
@@ -59,23 +58,24 @@ addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
 
 /drone_command(PlutoMsg): This topic canbe used to give RC input to drone
 
+
 ## Joystick To Control Drone
 
 The package uses following axes and buttons index to control drone:
 
 * Axes
-2 : To control ROLL
-3: To control Pitch
-0: To control Yaw
-1: To control Throttle
-4: To trim roll
-5: To trim pitch
+  - 2 : To control ROLL
+  - 3: To control Pitch
+  - 0: To control Yaw
+  - 1: To control Throttle
+  - 4: To trim roll
+  - 5: To trim pitch
 
 * Buttons
-4: To arm or disarm drone
-3: To take off 
-1: To land
-5: To save trim values
+  - 4: To arm or disarm drone
+  - 3: To take off 
+  - 1: To land
+  - 5: To save trim values
 
 **Note: You can change these mapping in [plutojoystick.h](/plutoserver/include/plutoserver/plutojoystick.h)**
 
@@ -84,18 +84,19 @@ The package uses following axes and buttons index to control drone:
 
 Following are the keys to control mapping:
 
-spacebar : arm or disarm
-w : increase height
-s : decrease height
-q : take off
-e : land
-a : yaw left
-d : yaw right
-Up arrow : go forward
-Down arrow : go backward
-Left arrow : go left
-Right arrow : go right
-Ctrl-C: to quit
+- spacebar : arm or disarm
+- w : increase height
+- s : decrease height
+- q : take off
+- e : land
+- a : yaw left
+- d : yaw right
+- Up arrow : go forward
+- Down arrow : go backward
+- Left arrow : go left
+- Right arrow : go right
+- Ctrl-C: to quit
+
 
 ## ROSTopic To Control Drone
 
@@ -135,38 +136,40 @@ rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, r
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1800, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
-###### decrease Yaw value to rotate in anti-clockwise direction
+###### Decrease Yaw value to rotate in anti-clockwise direction
 ```
 rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, rcYaw: 1200, rcThrottle: 1500, rcAUX1: 1500, rcAUX2: 1500, rcAUX3: 1500, rcAUX4: 1500}"
 ```
 **Note: RC values ranges from 1000 to 2000**
 
-## Multi Drone
+
+## Multiple Drones
 
 Following is the procedure to control multiple drones within the same network:
 
-* Setting the drone in client mode: Connect to drone wifi and use following command to open telnet connection: 
+###### Setting the drone in client mode: Connect to drone wifi and use following command to open telnet connection: 
 ```
 telnet 192.168.4.1 // drone wifi ip
 ```
-* Set the drone in both Station(STA) and Access Point Mode(AP) : Use following command:
+###### Set the drone in both Station(STA) and Access Point Mode(AP) : Use following command:
 ```
 +++AT MODE 3
 ```
-* Set the ssid and password: Use following command:
+###### Set the ssid and password: Use following command:
 ```
 +++AT STA ssid password
 ```
-* Add IPs: Start your hotspot and your drone should connect to the hotspot. Note the IP address assigned to it. Edit following lines in [PlutoSwarm.cpp](/plutodrone/src/PlutoSwarm.cpp). Repeat this for all new drones connected to the network 
+###### Add IPs: Start your hotspot and your drone should connect to the hotspot. Note the IP address assigned to it. Edit following lines in [PlutoSwarm.cpp](/plutodrone/src/PlutoSwarm.cpp). Repeat this for all new drones which are added to the network. 
 ```
 all_ips.push_back(&quot;192.168.43.151&quot;);
 all_ips.push_back(&quot;&quot;);https://github.com/DronaAviation/pluto-ros-package/blob/master/plutodrone/src/PlutoSwarm.cpp
 ```
-* Send data: Follow procedure in ROSTopic Header to give commands to fly the drones. Add plutoIndex in PlutoMsg for every topic. This index is the same as the index of the IP within 'all_ips' when you add it. 
+###### Send data: Follow procedure in ROSTopic Header to give commands to fly the drones. Add plutoIndex in PlutoMsg for every topic. This index is the same as the index of the IP within 'all_ips' when you add it. 
 
-* TODO - Get drone data from multiple drones
+###### TODO - Get drone data from multiple drones
 
 **Note: This feature is possible with ESP wifi of Pluto and will not work over Lewei camera wifi.**
+
 
 ## Contact
 
