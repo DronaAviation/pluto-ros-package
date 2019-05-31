@@ -6,7 +6,7 @@ Use following instructions on how to use this package:
 
 ###### Prerequisites
 
-Follow this [tutorial](wiki.ros.org/joy) on ROS wiki and install necesarry package to use the joystick control feature pluto-ros-package.
+Follow this [tutorial](http://wiki.ros.org/joy) on ROS wiki and install necesarry package to use the joystick control feature pluto-ros-package.
 
 ###### Installation
 
@@ -52,11 +52,11 @@ addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
 ```
 ## Service
 
-/plutoservice in [PlutoPilot](/plutodrone/srv) : This service request data from Pluto drone. This service gives the data like accelerometer, gyro, Magneto, altitude and battery value.
+* plutoservice in [PlutoPilot](/plutodrone/srv) : This service request data from Pluto drone. This service gives the data like accelerometer, gyro, Magneto, altitude and battery value.
 
 ## Topic
 
-/drone_command in [PlutoMsg](/plutodrone/msg): This topic canbe used to give RC input to drone
+* drone_command in [PlutoMsg](/plutodrone/msg): This topic can be used to give RC input to drone
 
 
 
