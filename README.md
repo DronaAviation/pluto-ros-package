@@ -45,7 +45,7 @@ rostopic pub /drone_command plutodrone/PlutoMsg "{rcRoll: 1500, rcPitch: 1500, r
 ```
 **Note: To control drone use one of the way at once otherwise you will endup over writing inputs from multiple nodes.**
 
-###### Use Lewei Camera wifi of Pluto instead of ESP wifi then edit following lines in [Communication.cpp](/plutodrone/src/Communication.cpp)
+###### To use Lewei Camera wifi to control drone instead ESP wifi, edit following lines in [Communication.cpp](/plutodrone/src/Communication.cpp)
 ```
 addr.sin_port = htons(CAMERA_PORT);
 addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
