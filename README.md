@@ -183,5 +183,5 @@ For any queries related to this package comment on repository or mail on develop
 
 This package is improved version of https://github.com/simmubhangu/pluto_drone.git
 
-Thanks to [Simranjeet Singh](https://github.com/simmubhangu) to develop original version of this package. 
+Thanks to [Simranjeet Singh](https://github.com/simmubhangu) for developing original version of this package. 
 
