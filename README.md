@@ -84,7 +84,7 @@ The package uses following axes and buttons index to control drone:
 
 ## Keyboard To Control Pluto
 
-Following are the keys to control mapping:
+The package uses following keys to control drone:
 
 - spacebar : arm or disarm
 - w : increase height
@@ -177,11 +177,11 @@ all_ips.push_back(&quot;&quot;);
 
 ## Contact
 
-For any queries related to this package comment on repository or mail on developers@dronaaviation.com
+For any queries related to this package comment on repository or mail us on developers@dronaaviation.com
 
 ## Acknowledgments
 
 This package is improved version of https://github.com/simmubhangu/pluto_drone.git
 
-Thanks to [Simranjeet Singh](https://github.com/simmubhangu) for developing original version of this package. 
+Thanks to [Simranjeet Singh](https://github.com/simmubhangu) and [e-yantra team](http://www.e-yantra.org) for developing original version of this package. 
 
