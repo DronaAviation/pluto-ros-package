@@ -22,6 +22,7 @@ float mapping(float x, float inMin, float inMax, float outMin, float outMax) {
 }
 
 void arm(){
+  cmd.isAutoPilotOn = 0;
   cmd.rcRoll=1500;
   cmd.rcYaw=1500;
   cmd.rcPitch =1500;
@@ -39,6 +40,7 @@ void disarm(){
 }
 
 void box_arm(){
+  cmd.isAutoPilotOn = 0;
   cmd.rcRoll=1500;
   cmd.rcYaw=1500;
   cmd.rcPitch =1500;
@@ -93,6 +95,13 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         usleep(200000);
     }
 
+    else if(joy->buttons[AUTO_PILOT_BTN]) {
+       if(cmd.isAutoPilotOn == 1)
+         cmd.isAutoPilotOn = 0;
+        else
+          cmd.isAutoPilotOn = 1;
+    }
+
     cmd.rcRoll = mapping(-joy->axes[RC_ROLL_AXES], -1, 1, 1000, 2000);
     cmd.rcPitch = mapping(joy->axes[RC_PITCH_AXES], -1, 1, 1000, 2000);
     cmd.rcYaw = mapping(-joy->axes[RC_YAW_AXES], -1, 1, 1000, 2000);
@@ -101,6 +110,7 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
     cmd.trim_roll = 0;
     cmd.trim_pitch = 0;
     command_pub.publish(cmd);
+
 }
 
 int main(int argc, char** argv)
@@ -122,6 +132,7 @@ int main(int argc, char** argv)
  		 cmd.commandType = 0;
      cmd.trim_roll = 0;
      cmd.trim_pitch = 0;
+     cmd.isAutoPilotOn = 0;
 
      ros::spin();
 

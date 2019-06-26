@@ -10,6 +10,7 @@
 #include <plutodrone/Common.h>
 #include <plutodrone/Protocol.h>
 #include <plutodrone/PlutoMsg.h>
+#include <plutodrone/PlutoMsgAP.h>
 #include <stdlib.h>
 #include <string>
 
@@ -18,16 +19,23 @@ using namespace std;
 
 bool isSocketCreate=false;
 
+int isAutoPilotOn = 0;
+
+int userRC[9]={1500,1500,1500,1500,1000,1000,1000,1000,0};
+
+int userRCAP[5]={1500,1500,1500,1500,0};
+
+int droneRC[9] = {1500,1500,1500,1500,1000,1000,1000,1000,0};
+
+
+//vector of all string ips
+vector <string> all_ips;
+
 Communication com;
 Protocol pro;
 
 ros::ServiceClient serviceClient;
 plutodrone::PlutoPilot service[2];
-
-int userRC[9]={1500,1500,1500,1500,1000,1000,1000,1000,0};
-
-//vector of all string ips
-vector <string> all_ips;
 
 struct ip_struct
 {
@@ -52,8 +60,21 @@ void *writeFunction(void *threadid){
 
   while(1)
   {
-    pro.sendMulRequestMSP_SET_RAW_RC(userRC);
-    pro.sendMulRequestMSP_GET_DEBUG(requests, userRC[8]);
+
+    memcpy(droneRC, userRC, sizeof(userRC));
+
+    if(isAutoPilotOn && droneRC[7] == 1500 && droneRC[8] == userRCAP[4]) {
+      droneRC[0] += userRCAP[0] - 1500;
+      droneRC[1] += userRCAP[1] - 1500;
+      droneRC[2] += userRCAP[2] - 1500;
+      droneRC[3] += userRCAP[3] - 1500;
+
+    }
+
+    pro.sendMulRequestMSP_SET_RAW_RC(droneRC);
+    pro.sendMulRequestMSP_GET_DEBUG(requests, droneRC[8]);
+
+
     usleep(22000);
   }
   pthread_exit(NULL);
@@ -103,7 +124,7 @@ void *serviceFunction(void *arg){
  pthread_exit(NULL);
 }
 
-void Callback(const plutodrone::PlutoMsg::ConstPtr& msg){
+void readDroneCommand(const plutodrone::PlutoMsg::ConstPtr& msg){
  userRC[0] = msg->rcRoll;
  userRC[1] = msg->rcPitch;
  userRC[2] = msg->rcThrottle;
@@ -113,6 +134,16 @@ void Callback(const plutodrone::PlutoMsg::ConstPtr& msg){
  userRC[6] = msg->rcAUX3;
  userRC[7] = msg->rcAUX4;
  userRC[8] = msg->plutoIndex;
+
+ isAutoPilotOn = msg->isAutoPilotOn;
+}
+
+void readDroneAPCommand(const plutodrone::PlutoMsgAP::ConstPtr& msg){
+
+  userRCAP[0] = msg->rcRoll;
+  userRCAP[1] = msg->rcPitch;
+  userRCAP[2] = msg->rcThrottle;
+  userRCAP[3] = msg->rcYaw;
 }
 
 void connectPluto(){
@@ -133,11 +164,10 @@ int main(int argc, char **argv){
 
   //Topic name. Index gets appended in for loop
   char topic_name[] = "drone_command/ ";
+  char topic_ap_name[] = "drone_ap_command/ ";
   char service_name[] = "PlutoService ";
 
   ros::NodeHandle n;
-
-  ros::Subscriber sub[all_ips.size()];
 
   //create thread
   pthread_t tds[all_ips.size()];
@@ -155,13 +185,16 @@ int main(int argc, char **argv){
 
     //Add an index to the topic
     topic_name[strlen(topic_name)-1] = 0x30+i;
+    topic_ap_name[strlen(topic_name)-1] = 0x30+i;
+
     //Add an index to the service
     service_name[strlen(service_name)-1] = 0x30+i;
 
     //Multiple topics is not really required since a single callback is being used
     //and PlutoMsg is modified to identify the drone by index starting from 0.
-    //However, I've placed it to make it user friendly, because people are stupid!
-    sub[i] = n.subscribe(topic_name, 1000, Callback);
+    //However, I've placed it to make it user friendly.
+    n.subscribe(topic_name, 1000, readDroneCommand);
+    n.subscribe(topic_ap_name, 1000, readDroneAPCommand);
 
     //Get the IP in the IP struct
     ipStructVar.index = i;

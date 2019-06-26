@@ -14,7 +14,8 @@ const int TRIM_SAVE_BTN = 5;
 const int RC_ROLL_AXES = 2;
 const int RC_PITCH_AXES = 3;
 const int RC_YAW_AXES = 0;
-const int RC_THROTTLE_AXES = 1; 
+const int RC_THROTTLE_AXES = 1;
+const int AUTO_PILOT_BTN = 7;
 
 
 float mapping(float x, float inMin, float inMax, float outMin, float outMax);

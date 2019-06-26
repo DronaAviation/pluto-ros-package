@@ -12,8 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   plutodrone
-  message_generation
-
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,7 +105,6 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES plutoclient
   CATKIN_DEPENDS roscpp rospy std_msgs
   #DEPENDS system_lib
   message_runtime

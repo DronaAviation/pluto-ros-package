@@ -10,3 +10,4 @@ int64 plutoIndex
 int8 commandType
 int8 trim_roll
 int8 trim_pitch
+int8 isAutoPilotOn

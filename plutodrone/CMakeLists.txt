@@ -12,14 +12,10 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE} -Wall -g -O4 -march=native -Wfat
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-
-
   roscpp
   rospy
   std_msgs
   message_generation
-
-
 )
 
 ## System dependencies are found with CMake's conventions
@@ -59,13 +55,13 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   PlutoMsg.msg
+  PlutoMsgAP.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
    FILES
     PlutoPilot.srv
-#   Service2.srv
  )
 
 ## Generate actions in the 'action' folder

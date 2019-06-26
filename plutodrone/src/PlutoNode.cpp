@@ -10,6 +10,8 @@
 #include <plutodrone/Common.h>
 #include <plutodrone/Protocol.h>
 #include <plutodrone/PlutoMsg.h>
+#include <plutodrone/PlutoMsgAP.h>
+
 
 #define TRIM_MAX 1000
 #define TRIM_MIN -1000
@@ -17,7 +19,9 @@
 using namespace std;
 
 
-bool isSocketCreated=false;
+bool isSocketCreated;
+
+int isAutoPilotOn = 0;
 
 Communication com;
 Protocol pro;
@@ -27,12 +31,16 @@ plutodrone::PlutoPilot service;
 
 int userRC[8]={1500,1500,1500,1500,1000,1000,1000,1000};
 
-int commandType = 0;
+int userRCAP[4]={1500,1500,1500,1500};
+
+int droneRC[8] = {1500,1500,1500,1500,1000,1000,1000,1000};
+
+int commandType = 0, commandTypeAP = 0;
 
 void *createSocket(void *threadid){
- isSocketCreated=com.connectSock();
- pthread_exit(NULL);
-};
+  isSocketCreated=com.connectSock();
+  pthread_exit(NULL);
+}
 
 void *writeFunction(void *threadid){
   std::vector<int> requests;
@@ -46,12 +54,25 @@ void *writeFunction(void *threadid){
 
   while(1)
   {
-    pro.sendRequestMSP_SET_RAW_RC(userRC);
+    memcpy(droneRC, userRC, sizeof(userRC));
+
+    if(isAutoPilotOn && droneRC[7] == 1500) {
+      droneRC[0] += userRCAP[0] - 1500;
+      droneRC[1] += userRCAP[1] - 1500;
+      droneRC[2] += userRCAP[2] - 1500;
+      droneRC[3] += userRCAP[3] - 1500;
+    }
+
+    pro.sendRequestMSP_SET_RAW_RC(droneRC);
     pro.sendRequestMSP_GET_DEBUG(requests);
 
     if(commandType != NONE_COMMNAD) {
         pro.sendRequestMSP_SET_COMMAND(commandType);
         commandType = NONE_COMMNAD;
+    }
+    else if(commandTypeAP != NONE_COMMNAD && isAutoPilotOn && droneRC[7] == 1500) {
+       pro.sendRequestMSP_SET_COMMAND(commandTypeAP);
+       commandTypeAP = NONE_COMMNAD;
     }
 
     usleep(22000);
@@ -93,7 +114,7 @@ void *serviceFunction(void *threadid){
  pthread_exit(NULL);
 }
 
-void Callback(const plutodrone::PlutoMsg::ConstPtr& msg){
+void readDroneCommand(const plutodrone::PlutoMsg::ConstPtr& msg){
   userRC[0] = msg->rcRoll;
   userRC[1] = msg->rcPitch;
   userRC[2] = msg->rcThrottle;
@@ -102,6 +123,8 @@ void Callback(const plutodrone::PlutoMsg::ConstPtr& msg){
   userRC[5] = msg->rcAUX2;
   userRC[6] = msg->rcAUX3;
   userRC[7] = msg->rcAUX4;
+
+  isAutoPilotOn = msg->isAutoPilotOn;
   if(commandType == NONE_COMMNAD)
     commandType = msg->commandType;
 
@@ -122,12 +145,25 @@ void Callback(const plutodrone::PlutoMsg::ConstPtr& msg){
 
 }
 
+void readDroneAPCommand(const plutodrone::PlutoMsgAP::ConstPtr& msg){
+
+  userRCAP[0] = msg->rcRoll;
+  userRCAP[1] = msg->rcPitch;
+  userRCAP[2] = msg->rcThrottle;
+  userRCAP[3] = msg->rcYaw;
+  if(commandTypeAP == NONE_COMMNAD)
+    commandTypeAP = msg->commandType;
+}
+
+
 int main(int argc, char **argv){
     pthread_t thread, readThread, writeThread, serviceThread;
     int rc;
     ros::init(argc, argv, "plutonode");
     ros::NodeHandle n;
-    ros::Subscriber sub = n.subscribe("drone_command", 1000, Callback);
+    ros::Subscriber sub = n.subscribe("drone_command", 1000, readDroneCommand);
+    ros::Subscriber subAutoPilot = n.subscribe("drone_ap_command", 1000, readDroneAPCommand);
+
     rc = pthread_create(&thread, NULL, createSocket, 	(void *)1);
     if (rc)
     {

@@ -23,6 +23,7 @@ class send_data():
 		self.cmd.commandType = 0
 		self.cmd.trim_roll = 0
 		self.cmd.trim_pitch = 0
+		self.cmd.isAutoPilotOn = 0
 
 		rospy.Subscriber('/input_key', Int16, self.indentify_key )
 
@@ -32,6 +33,7 @@ class send_data():
 		self.cmd.rcPitch =1500
 		self.cmd.rcThrottle =1000
 		self.cmd.rcAUX4 =1500
+		self.cmd.isAutoPilotOn = 0
 		self.command_pub.publish(self.cmd)
 		rospy.sleep(1)
 
@@ -41,6 +43,7 @@ class send_data():
 		self.cmd.rcPitch =1500
 		self.cmd.rcThrottle =1500
 		self.cmd.rcAUX4 =1500
+		self.cmd.isAutoPilotOn = 0
 		self.command_pub.publish(self.cmd)
 		rospy.sleep(0.5)
 
@@ -66,6 +69,11 @@ class send_data():
 			self.right()
 		elif self.key_value == 80:
 			self.reset()
+		elif self.key_value == 90:
+			if(self.cmd.isAutoPilotOn == 1):
+				self.cmd.isAutoPilotOn = 0
+			else:
+				self.cmd.isAutoPilotOn = 1
 		elif self.key_value == 50:
 			self.increase_height()
 		elif self.key_value == 60:
