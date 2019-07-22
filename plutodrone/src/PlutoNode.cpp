@@ -147,6 +147,10 @@ void readDroneCommand(const plutodrone::PlutoMsg::ConstPtr& msg){
 
 void readDroneAPCommand(const plutodrone::PlutoMsgAP::ConstPtr& msg){
 
+
+  cout << "Received Drone AP Command\n";
+  cout << "Yaw: "<<msg->rcYaw<<endl;
+
   userRCAP[0] = msg->rcRoll;
   userRCAP[1] = msg->rcPitch;
   userRCAP[2] = msg->rcThrottle;

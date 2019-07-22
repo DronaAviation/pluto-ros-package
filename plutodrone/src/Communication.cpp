@@ -61,8 +61,8 @@ bool Communication::connectSock(){
   }
 
   addr.sin_family = AF_INET;
-  addr.sin_port = htons(CAMERA_PORT);
-  addr.sin_addr.s_addr = inet_addr(CAMERA_IP_ADDRESS);
+  addr.sin_port = htons(PORT);
+  addr.sin_addr.s_addr = inet_addr(IP_ADDRESS);
 
   //socket() sets it to blocking
   // Set to non-blocking.

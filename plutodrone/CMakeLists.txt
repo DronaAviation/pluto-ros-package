@@ -223,7 +223,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg)
 #generate_messages(DEPENDENCIES std_msgs)
 
 ## Declare a catkin package
-catkin_package()
+#catkin_package()
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
@@ -233,7 +233,7 @@ add_dependencies(plutonode plutodrone_generate_messages_cpp)
 
 add_executable(plutoswarm src/PlutoSwarm.cpp)
 target_link_libraries(plutoswarm ${catkin_LIBRARIES} plutodrone)
-add_dependencies(plutoswarm plutodrone_generate_messages_cpp)
+#add_dependencies(plutoswarm plutodrone_generate_messages_cpp)
 
 #add_executable(listener src/listener.cpp)
 #target_link_libraries(listener ${catkin_LIBRARIES})

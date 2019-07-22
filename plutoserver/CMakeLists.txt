@@ -204,8 +204,8 @@ include_directories(
 
 add_executable(plutoserver src/plutoserver.cpp)
 target_link_libraries(plutoserver ${catkin_LIBRARIES})
-add_dependencies(plutoserver plutoserver_gencpp)
+#add_dependencies(plutoserver plutoserver_gencpp)
 
 add_executable(plutojoystick src/plutojoystick.cpp)
 target_link_libraries(plutojoystick ${catkin_LIBRARIES})
-add_dependencies(plutojoystick plutoserver_gencpp)
+#add_dependencies(plutojoystick plutoserver_gencpp)

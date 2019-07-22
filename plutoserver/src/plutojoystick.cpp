@@ -1,4 +1,8 @@
 #include <plutoserver/plutojoystick.h>
+#include <iostream>
+
+
+using namespace std;
 
 ros::Publisher command_pub;
 ros::Subscriber joy_sub;
@@ -100,6 +104,9 @@ void joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
          cmd.isAutoPilotOn = 0;
         else
           cmd.isAutoPilotOn = 1;
+
+         cout<<"isAutoPilotOn: "<< cmd.isAutoPilotOn <<endl;
+
     }
 
     cmd.rcRoll = mapping(-joy->axes[RC_ROLL_AXES], -1, 1, 1000, 2000);
